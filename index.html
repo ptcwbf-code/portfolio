@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haotian Yao — CV</title>
+<style>
+  :root {
+    --bg: #fcfcfa;
+    --surface: #ffffff;
+    --text: #1a1a1f;
+    --text-secondary: #4a4a55;
+    --text-tertiary: #7d7d89;
+    --accent: #193d59;
+    --rule: #e5e5e9;
+    --rule-light: #f0f0f3;
+    --tag-bg: #f3f3f0;
+    --transition: 0.15s ease;
+    --font-mono: "SF Mono", "Cascadia Code", "Consolas", "Liberation Mono", "Menlo", monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", "PingFang SC", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.65;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-size: 14.5px; font-weight: 400;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 52px 32px 72px;
+  }
+
+  /* Header */
+  .name {
+    font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+    font-size: 2rem; font-weight: 400; color: var(--text);
+    letter-spacing: 0.01em; margin-bottom: 6px;
+  }
+  .contact-line {
+    font-size: 0.85rem; color: var(--text-tertiary);
+    display: flex; flex-wrap: wrap; gap: 6px 16px;
+    margin-bottom: 32px;
+  }
+  .contact-line a { color: var(--accent); text-decoration: none; }
+  .contact-line a:hover { text-decoration: underline; }
+
+  /* Section */
+  .section { margin-bottom: 30px; }
+  .section-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem; font-weight: 400; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding-bottom: 7px; border-bottom: 1.5px solid var(--rule);
+    margin-bottom: 14px;
+  }
+
+  /* Entry */
+  .entry { margin-bottom: 16px; }
+  .entry:last-child { margin-bottom: 0; }
+  .entry-head {
+    display: flex; justify-content: space-between;
+    align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
+  }
+  .entry-title { font-weight: 600; font-size: 0.93rem; }
+  .entry-subtitle { font-size: 0.84rem; color: var(--text-secondary); font-style: italic; }
+  .entry-location { font-size: 0.82rem; color: var(--text-tertiary); font-weight: 400; }
+  .entry-date { font-size: 0.8rem; color: var(--text-tertiary); white-space: nowrap; font-family: var(--font-mono); }
+  .entry-desc { font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px; line-height: 1.7; }
+  .entry-desc ul { list-style: none; margin-top: 4px; }
+  .entry-desc ul li { position: relative; padding-left: 14px; margin-bottom: 3px; }
+  .entry-desc ul li::before { content: "—"; position: absolute; left: 0; color: var(--text-tertiary); }
+
+  /* Summary */
+  .summary {
+    font-size: 0.89rem; color: var(--text-secondary);
+    line-height: 1.8; margin-bottom: 30px;
+  }
+  .summary p { margin-bottom: 10px; }
+  .summary p:last-child { margin-bottom: 0; }
+
+  /* Tags */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { background: var(--tag-bg); color: var(--text-secondary); font-size: 0.76rem; padding: 2px 9px; border-radius: 3px; }
+
+  /* Publication block */
+  .pub-authors { font-size: 0.84rem; color: var(--text-secondary); }
+  .pub-authors strong { color: var(--text); }
+  .pub-title { font-style: italic; margin: 4px 0 3px; font-size: 0.88rem; line-height: 1.5; }
+  .pub-venue { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.6; }
+  .pub-doi { font-size: 0.78rem; margin-top: 2px; }
+  .pub-doi a { color: var(--accent); text-decoration: none; font-family: var(--font-mono); font-size: 0.73rem; }
+  .pub-doi a:hover { text-decoration: underline; }
+  .doi-copy { display: inline-flex; align-items: center; gap: 3px; background: var(--tag-bg); border: 1px solid var(--rule); color: var(--text-secondary); font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; cursor: pointer; font-family: inherit; margin-left: 4px; transition: all var(--transition); }
+  .doi-copy:hover { border-color: var(--accent); color: var(--accent); }
+  .doi-copy.copied { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; }
+
+  /* Abstract */
+  .abstract-toggle { display: inline-flex; align-items: center; gap: 4px; background: none; border: 1px solid var(--rule); color: var(--text-secondary); padding: 3px 12px; border-radius: 14px; font-size: 0.76rem; cursor: pointer; font-family: inherit; margin-top: 6px; transition: all var(--transition); }
+  .abstract-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .abstract-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin 0.35s ease; }
+  .abstract-content.open { max-height: 400px; margin-top: 8px; }
+  .abstract-text { background: var(--tag-bg); border-radius: 4px; padding: 12px 16px; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
+
+  /* Award row */
+  .award-row { display: flex; align-items: baseline; gap: 12px; padding: 5px 0; font-size: 0.86rem; }
+  .award-year { font-size: 0.77rem; color: var(--text-tertiary); flex-shrink: 0; font-family: var(--font-mono); width: 70px; }
+  .award-name { flex: 1; }
+  .award-section-label { font-weight: 600; font-size: 0.8rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px; margin-bottom: 4px; }
+
+  /* Skills inline */
+  .skill-group { margin-bottom: 10px; }
+  .skill-group-label { font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+
+  /* Subtle theme toggle */
+  .theme-toggle {
+    position: fixed; bottom: 24px; right: 24px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--rule);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: var(--text-tertiary);
+    z-index: 500; transition: background var(--transition), color var(--transition);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .theme-toggle:hover { color: var(--accent); background: var(--bg); }
+
+  /* Footer */
+  .page-foot { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 0.75rem; color: var(--text-tertiary); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 600px) {
+    .page { padding: 28px 16px 48px; }
+    .name { font-size: 1.5rem; }
+    .entry-head { flex-direction: column; }
+    .entry-date { white-space: normal; }
+  }
+
+  @media print {
+    .theme-toggle, .abstract-toggle, .doi-copy { display: none !important; }
+    .abstract-content { max-height: none !important; }
+    body { background: #fff; }
+    .page { padding: 0; max-width: 100%; }
+    .section { break-inside: avoid; }
+    .entry { break-inside: avoid; }
+  }
+  @media (prefers-reduced-motion: reduce) { .abstract-content { transition: none; } }
+
+  /* Dark */
+  body.dark { --bg: #1c1d22; --surface: #24262d; --text: #e3e4e7; --text-secondary: #b2b5be; --text-tertiary: #80858f; --accent: #88bfe8; --rule: #353842; --rule-light: #2f3139; --tag-bg: #2c2e36; }
+  body.dark .doi-copy.copied { background: #1a3824; border-color: #3d8b40; color: #81c784; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <h1 class="name">Haotian Yao</h1>
+  <div class="contact-line">
+    <span>Shenzhen, Guangdong, China</span>
+    <span><a href="mailto:yaoht100@outlook.com">yaoht100@outlook.com</a></span>
+  </div>
+
+  <!-- ═══════════ SUMMARY ═══════════ -->
+  <div class="summary">
+    <p>Data science student entering UCL in September 2026. Co-author of a published paper on cosmic ray detection in <em>Theoretical and Natural Science</em>. Experienced with Python, machine learning, and statistical analysis through coursework, research, and self-directed projects. Founded and led a volunteer tutoring programme serving children in Shenzhen's urban village communities. Broad athletic background across five sports, with sustained commitment to basketball and badminton through high school.</p>
+  </div>
+
+  <!-- ═══════════ EDUCATION ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Education</h2>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">University College London (UCL)</span>
+        <span class="entry-date">2026 – 2029</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">BSc Data Science, Faculty of Engineering Sciences</span>
+        <span class="entry-location">London, United Kingdom</span>
+      </div>
+      <div class="entry-desc">Russell Group, global top 10 (QS). Statistical machine learning, probabilistic modelling, data engineering, computational statistics. UCL Centre for Artificial Intelligence; Alan Turing Institute connections.</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Shenzhen Senior High School — International Division</span>
+        <span class="entry-date">2023 – 2026</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">GCE A-Levels: Mathematics, Further Mathematics, Physics, Economics, Chinese</span>
+        <span class="entry-location">Shenzhen, China</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ RESEARCH ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Research &amp; Projects</h2>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Cosmic Ray Muon Flux — Statistical Analysis</span>
+        <span class="entry-date">Summer 2024</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">Shanghai</span>
+      </div>
+      <div class="entry-desc">
+        <ul>
+          <li>Operated six Cosmic Watch detectors (SiPM + plastic scintillator) to collect time-stamped cosmic ray events and coincident atmospheric pressure data.</li>
+          <li>Built data processing pipeline: organised raw logs, developed time-window coincidence algorithm for event identification, applied noise-reduction techniques.</li>
+          <li>Modelled muon detection rate against atmospheric pressure using ordinary least-squares linear regression; identified statistically significant inverse correlation (p &lt; 0.01), consistent with the barometric effect.</li>
+          <li>Resulted in peer-reviewed publication in <em>Theoretical and Natural Science</em>, Vol. 107 (2025).</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">Python</span><span class="tag">Jupyter</span><span class="tag">Linear Regression</span><span class="tag">Time-Series</span><span class="tag">Signal Processing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">HKU Summer Programme — Data &amp; Systems Engineering</span>
+        <span class="entry-date">Summer 2025</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">University of Hong Kong</span>
+      </div>
+      <div class="entry-desc">
+        <ul>
+          <li>Selective programme covering 3D printing &amp; digital fabrication, robotics &amp; automation, and smart infrastructure systems.</li>
+          <li>Programmed robotic systems with mBlock; collected and processed motion telemetry (accelerometer, gyroscope) for vibration analysis and design optimisation.</li>
+          <li>Presented capstone findings to faculty.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">mBlock</span><span class="tag">Python</span><span class="tag">Robotics</span><span class="tag">Sensor Data</span><span class="tag">3D Printing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Machine Learning with Python — IBM Professional Certificate</span>
+        <span class="entry-date">2024 – 2025</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">edX</span>
+      </div>
+      <div class="entry-desc">
+        <ul>
+          <li>Supervised learning (regression, decision trees, random forests, SVMs, k-NN); unsupervised learning (k-means, hierarchical clustering, DBSCAN, PCA); introductory deep learning (Keras, TensorFlow).</li>
+          <li>Applied projects in healthcare readmission prediction and credit risk modelling. Model evaluation via cross-validation, ROC, and precision-recall analysis.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">Python</span><span class="tag">scikit-learn</span><span class="tag">pandas</span><span class="tag">NumPy</span><span class="tag">Keras</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Underwater ROV — Design, Build &amp; Control</span>
+        <span class="entry-date">Spring 2024</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">Shenzhen</span>
+      </div>
+      <div class="entry-desc">
+        <ul>
+          <li>Interdisciplinary project: CAD, 3D printing, electronics integration, sensor firmware, PID-based depth and heading stability control.</li>
+          <li>PVC frame with four-thruster vectored propulsion; DS18B20 temperature, MS5837 depth, and custom IR turbidity sensors (I²C, Arduino Nano); RS-485 tether with Python tkinter surface display.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">CAD</span><span class="tag">3D Printing</span><span class="tag">Arduino</span><span class="tag">PID Control</span><span class="tag">Electronics</span><span class="tag">Python</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Chinese Academy of Sciences — Research Immersion</span>
+        <span class="entry-date">Winter 2023</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">Shenzhen</span>
+      </div>
+      <div class="entry-desc">
+        <ul>
+          <li>Lectures and hands-on sessions on brain-computer interfaces: EEG signal acquisition, preprocessing, and classification.</li>
+          <li>Explored zero-gravity backpack design using elastic load-suspension mechanisms (biomechanics &amp; mechanical design).</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">BCI</span><span class="tag">EEG</span><span class="tag">Neuroscience</span><span class="tag">Biomechanics</span><span class="tag">Mechanical Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PUBLICATIONS ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Publications</h2>
+
+    <div class="entry">
+      <div class="pub-authors">Xuanzhu An<sup>1,*</sup>, <strong>Haoran Yao<sup>2</sup></strong>, <strong>Haotian Yao<sup>2</sup></strong></div>
+      <div class="pub-title">Exploring the Relationship Between Muon Detection Rates and Atmospheric Pressure Using Cosmic Watch Detectors</div>
+      <div class="pub-venue">
+        <em>Theoretical and Natural Science</em>, Vol. 107, pp. 157–163 · 6 May 2025 · Open Access (CC BY)<br>
+        ISSN 2753-8818 (Print) · 2753-8826 (Online)<br>
+        <span style="font-size:0.75rem;color:var(--text-tertiary);">1 North China Institute of Science and Technology, Hebei · 2 Shenzhen Senior High School International Division</span>
+      </div>
+      <div class="pub-doi">
+        DOI: <a href="https://doi.org/10.54254/2753-8818/2025.22629" target="_blank" rel="noopener">10.54254/2753-8818/2025.22629</a>
+        <button class="doi-copy" onclick="copyDOI(this, '10.54254/2753-8818/2025.22629')">Copy</button>
+      </div>
+      <button class="abstract-toggle" onclick="toggleAbstract(this)" aria-expanded="false">▸ Abstract</button>
+      <div class="abstract-content">
+        <div class="abstract-text">
+          This study explores how atmospheric pressure affects muon detection rates. By analyzing data from six Cosmic Watch detectors, we organized the collected information, examined the correlation between atmospheric pressure and muon detection rates, and addressed the timing discrepancies across detectors. Our findings show that muon detection rates decrease as atmospheric pressure rises — consistent with the barometric effect in cosmic ray physics. The study also improves time difference correction methods, providing new strategies and tools for detecting rare coincidence events.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ AWARDS ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Awards &amp; Honours</h2>
+
+    <div class="award-row"><span class="award-year">2024</span><span class="award-name">British Physics Olympiad (BPhO) — Global Bronze I</span></div>
+    <div class="award-row"><span class="award-year">2023</span><span class="award-name">Senior Mathematical Challenge (SMC) — Gold Award</span></div>
+    <div class="award-row"><span class="award-year">2024</span><span class="award-name">IELTS Overall Band Score 7.5 (Listening 8.5, Reading 8.0, Speaking 6.5, Writing 6.0)</span></div>
+
+    <div class="award-section-label">School Honours</div>
+    <div class="award-row"><span class="award-year">2025</span><span class="award-name">Outstanding Boarding Student</span></div>
+    <div class="award-row"><span class="award-year">2025</span><span class="award-name">Collective Activity Excellence Award</span></div>
+    <div class="award-row"><span class="award-year">2024–2025</span><span class="award-name">Excellence in Conduct and Etiquette</span></div>
+    <div class="award-row"><span class="award-year">2023</span><span class="award-name">Military Training — Outstanding Student</span></div>
+    <div class="award-row"><span class="award-year">2023–2024</span><span class="award-name">Academic Honour Certificates (×2)</span></div>
+    <div class="award-row"><span class="award-year">2023–2025</span><span class="award-name">School Award Certificates (×7)</span></div>
+  </div>
+
+  <!-- ═══════════ SKILLS ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Skills</h2>
+
+    <div class="skill-group">
+      <div class="skill-group-label">Programming &amp; Data</div>
+      <div class="tag-row">
+        <span class="tag">Python</span><span class="tag">Jupyter Notebook</span><span class="tag">pandas</span><span class="tag">NumPy</span><span class="tag">scikit-learn</span>
+        <span class="tag">matplotlib</span><span class="tag">Keras / TensorFlow</span><span class="tag">mBlock</span><span class="tag">Arduino (C/C++)</span>
+        <span class="tag">HTML / CSS / JavaScript</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-label">Tools</div>
+      <div class="tag-row">
+        <span class="tag">Microsoft Office / Excel</span><span class="tag">Bambu Studio (3D Printing)</span><span class="tag">XRCC</span>
+        <span class="tag">Git</span><span class="tag">VS Code</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-label">Methods</div>
+      <div class="tag-row">
+        <span class="tag">Linear &amp; Logistic Regression</span><span class="tag">Time-Series Analysis</span><span class="tag">Signal Processing</span>
+        <span class="tag">Statistical Hypothesis Testing</span><span class="tag">Data Pipelines</span><span class="tag">Classification &amp; Clustering</span>
+        <span class="tag">PID Control</span><span class="tag">CAD</span><span class="tag">Experiment Design</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-label">Languages</div>
+      <div class="tag-row">
+        <span class="tag">Mandarin Chinese — Native</span>
+        <span class="tag">English — Fluent (IELTS 7.5, L8.5 R8.0)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ LEADERSHIP & ACTIVITIES ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Leadership &amp; Activities</h2>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Mission For Education Equality — President</span>
+        <span class="entry-date">2023 – 2026</span>
+      </div>
+      <div class="entry-desc">
+        Led the high school chapter of this volunteer-run online tutoring programme providing free maths and English instruction to children in Shenzhen's urban village communities. Recruited and coordinated tutors, managed scheduling and curriculum, and taught directly in small-group weekly sessions. Grew participation from 3 to over 15 students per semester.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Computer Science Club — Member</span>
+        <span class="entry-date">2022 – 2026</span>
+      </div>
+      <div class="entry-head">
+        <span class="entry-subtitle">Shenzhen Senior High School</span>
+      </div>
+      <div class="entry-desc">
+        Attended weekly workshops covering Python fundamentals and algorithmic problem-solving. Participated in project-based sessions (games, data scripts, automation tools) and club events. ~20 regular members.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Volunteer Teaching — Zhaluomude School, Inner Mongolia</span>
+        <span class="entry-date">Summer 2024</span>
+      </div>
+      <div class="entry-desc">
+        Two weeks teaching English and science at a rural school in a predominantly Mongolian region. Adapted materials and built hands-on science demonstrations from locally available objects.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SPORTS ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Sports</h2>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Basketball</span>
+        <span class="entry-date">Late primary school – present</span>
+      </div>
+      <div class="entry-desc">Regular training, inter-school matches, tournament organisation. Defence-oriented player.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Badminton</span>
+        <span class="entry-date">Childhood; resumed high school</span>
+      </div>
+      <div class="entry-desc">Trained consistently through high school; currently one of two main sports.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Football</span>
+        <span class="entry-date">Kindergarten – middle school</span>
+      </div>
+      <div class="entry-desc">Played regularly growing up. Studied league history and World Cup records. Still follow the tactical and statistical side.</div>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Swimming, Taekwondo</span>
+        <span class="entry-date">Kindergarten – middle school</span>
+      </div>
+      <div class="entry-desc">Swimming: trained from a young age, still interested in performance data and race analytics. Taekwondo: competed at regional level.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ INTERESTS ═══════════ -->
+  <div class="section">
+    <h2 class="section-title">Interests</h2>
+    <div class="entry-desc" style="margin-top:0;">
+      <strong>Music:</strong> systematic listening with attention to production, arrangement, and vocal technique. <strong>AI &amp; tech:</strong> using AI for data work, writing, music production, web projects; systematic model comparison. <strong>Reading:</strong> fiction and non-fiction across genres; preference for slower, deeper engagement. <strong>Film:</strong> narrative structure, character work, directorial choices; maintain a viewing log. <strong>NBA &amp; sports analytics:</strong> era-adjusted metrics, pace-normalised comparisons, statistical approaches to player evaluation. Also follow competitive swimming and football from an analytical perspective.
+    </div>
+  </div>
+
+  <div class="page-foot">
+    <span>&copy; 2026 Haotian Yao</span>
+    <span><a href="mailto:yaoht100@outlook.com">yaoht100@outlook.com</a></span>
+  </div>
+
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+
+<script>
+  function toggleAbstract(btn) {
+    const content = btn.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open');
+    btn.setAttribute('aria-expanded', !isOpen);
+    btn.textContent = isOpen ? '▸ Abstract' : '▾ Abstract';
+  }
+
+  function copyDOI(btn, doi) {
+    navigator.clipboard.writeText(doi).then(() => {
+      btn.textContent = 'Copied'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = doi; ta.style.cssText = 'position:fixed;opacity:0;';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      btn.textContent = 'Copied'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+    try { localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); } catch(e) {}
+  }
+  try { if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark'); } catch(e) {}
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleTheme(); }
+  });
+</script>
+
+</body>
+</html>
